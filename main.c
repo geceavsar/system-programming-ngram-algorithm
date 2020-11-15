@@ -34,8 +34,9 @@ int main(){
         size_1 = calculateSize(str_1);
         size_2 = calculateSize(str_2);
         
-        printf("%d\n", size_1);
+        //printf("%d\n", size_1);
         ngram(str_1,size_1,str_2,size_2,n);
+        printf("\n");
         
     }
 
