@@ -94,7 +94,7 @@ l2: ;pop ecx
 	cmp [index1],eax
 	;;check for if str1 reached end
 	je fin
-	mov edx,[ebp+16]
+	mov edi, 0
 	jmp l1
 	
 match:
