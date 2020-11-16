@@ -35,13 +35,13 @@ int main(){
     int size_2;
     int result;
 
-    FILE * filep = fopen("input.txt", "r");
+    FILE * filep = fopen("input_tab.txt", "r");
     if (filep == NULL){   
         printf("Error! Could not open file\n"); 
         exit(-1);
     }
     while (!feof(filep)){
-        fscanf(filep, "%d %s %s", &n, str_1, str_2);
+        fscanf(filep, "%d\t%s\t%s", &n, str_1, str_2);
         size_1 = calculateSize(str_1);
         size_2 = calculateSize(str_2);
         

@@ -36,28 +36,29 @@ l1:
 	mov esi, [ebp+24] ;;n
 	
 	push esi ;;esi holds n
-	sub esi, ebx
+	sub ebx, esi
 	mov edi, esi ;;edi holds #ngram
 	pop esi
+	inc edi
 	mov dword [nMinusOne], esi
 	sub dword [nMinusOne], 1
-	
+		
+	mov ecx, eax ;;set the offset address
 	jmp loop1
-
 incEax:
 	inc eax ;;goto next ngram
 	mov ecx, eax ;;set the offset address
 	mov dword [i], 0  ;;clear counters
 	mov dword [j], 0
 loop1:
-	push [ecx] ;;push letter to stack
+	push ecx ;;push letter to stack
 	inc ecx ;;increase iterator
 	add dword [i], 1 ;;increase counters
 	add dword [j], 1
 	cmp [j], esi ;;end of inner loop
 	jl loop1
-	cmp [i], [nMinusOne] ;;end of outer loop
-	jl incEax
+	cmp [i], edi ;;end of outer loop
+	jl incEax ;;;;err
 	
 	mov eax, edi ;;#ngram
 	mul esi ;;#of letters
