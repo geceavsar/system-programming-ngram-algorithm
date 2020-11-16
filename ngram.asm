@@ -1,7 +1,8 @@
 
-
- segment .bss ;declares variables
-
+    
+    segment .bss ;declares variables
+temp1 resd 1
+temp2 resd 1
 
 segment .data ;declare initialized data or constants, 
 hit dd 0 ;how many matching ngram
@@ -38,25 +39,36 @@ ngram:
 	
 	mov edx, [ebp+16]
 	mov ecx, [ebp+8]
+	
+	mov esi,0 ; esi = 0
+	mov edi,0 ; edi = 0
 
 	
 	mov ebx, [ebp+24] ;ebx = n 
 	
 l1:
 	mov dword [counter], 0
-	push ecx
+	;push ecx
+	push esi
 	mov dword [index2],0
 	
 l4: 
-	mov dh, byte[edx]
-	mov ch, byte[ecx]
-	cmp dh,ch
-	;mov edx,[edx]
-	;mov edx,[ecx]
+	
+	mov byte dl, [edx+edi]
+	mov byte cl, [ecx+esi]
+	cmp dl,cl
+	
 	;cmp ecx,edx
+	
+	
+	;mov byte edx,[edx]
+	;mov byte ecx,[ecx]
+	;cmp ecx,edx
+	
 	je match 
 	
-l3:	inc edx
+l3:	;inc edx
+	inc edi ;increment offset instead of register
 	add dword [index2],1 ;increment index 2
 	
 	;;;;eax in burda str2 de ilerlemesi lazım
@@ -69,8 +81,10 @@ l3:	inc edx
 	je l2
 	jmp l4 
 
-l2: pop ecx
-	inc ecx
+l2: ;pop ecx
+	pop esi ;pop esi back 
+	;inc ecx
+	inc esi
 	add dword [index1],1 ;increment index 1
 	
 	;;;;eax in burda str1 de ilerlemesi lazım
@@ -84,18 +98,28 @@ l2: pop ecx
 	jmp l1
 	
 match:
+	
 	add dword [counter],1 ;increment counter
 	cmp [counter], ebx
 	je addHit
-	inc ecx
-	inc edx
+	;inc ecx
+	;inc edx
+	inc esi
+	inc edi
 	;mov edx,[edx]
 	;mov edx,[ecx]
 	;cmp ecx, edx
-	mov dh, byte[edx]
-	mov ch, byte[ecx]
-	cmp dh, ch
+	
+	;mov dh, byte[edx]
+	;mov ch, byte[ecx]
+	;cmp dh, ch
+	
+	mov byte dl, [edx+edi]
+	mov byte cl, [ecx+esi]
+	cmp dl,cl
+	
 	je match
+	
 	jmp l2 
 	
 addHit: 
@@ -108,3 +132,4 @@ fin:
     pop ebp 
     ret
     
+
