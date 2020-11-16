@@ -1,8 +1,12 @@
 /*
-Farid Huseynov
-150160904
 System Programming
 Group Project I
+Farid Huseynov
+150160904
+Ekin Celebi
+150160152
+Gizem Ece Avsar
+040140303
 */
 
 #include <stdio.h>
@@ -25,7 +29,7 @@ int main(){
     int size_2;
     int result;
 
-    FILE * filep = fopen("input_tab.txt", "r");
+    FILE * filep = fopen("input.txt", "r");
     if (filep == NULL){   
         printf("Error! Could not open file\n"); 
         exit(-1);
