@@ -18,11 +18,12 @@ int calculateSize(char* myStr){
     return size;
 }
 int main(){
-    int n = 5;
+    int n;
     char str_1[10];
     char str_2[10];
     int size_1;
     int size_2;
+    int result;
 
     FILE * filep = fopen("input.txt", "r");
     if (filep == NULL){   
@@ -35,9 +36,9 @@ int main(){
         size_2 = calculateSize(str_2);
         
         //printf("%d\n", size_1);
-        ngram(str_1,size_1,str_2,size_2,n);
-        printf("\n");
         
+        result = ngram(str_1,size_1,str_2,size_2,n);
+        printf("%d\n",result);
     }
 
     return 0;
