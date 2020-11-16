@@ -1,14 +1,13 @@
+segment .bss ;declares variables
 
-    
-    segment .bss ;declares variables
-temp1 resd 1
-temp2 resd 1
+
 
 segment .data ;declare initialized data or constants, 
-hit dd 0 ;how many matching ngram
-counter dd 0 ;to check if n letters are matched
-index2 dd 0 ; holds str2 index
-index1 dd 0 ;holds str1 index
+count dd 0
+i dd 0
+u dd 0
+nMinusOne dd 0
+j dd 0
 
 ;;str1 ebp+8
 ;;size1 ebp+12
@@ -24,112 +23,46 @@ ngram:
 	push ebp
     mov  ebp,esp
 
-	;xor eax,eax
 	
-	;init counters
-	mov dword [hit],0
-	mov dword [index1],0
+	mov dword [i],0
 	
-	;get params 
 	
-	;mov eax, [ebp+16]
-	;mov edx, [eax] ;edx = str2
-	;mov eax, [ebp+8]
-	;mov ecx, [eax] ;ecx = str1
-	
-	mov edx, [ebp+16]
-	mov ecx, [ebp+8]
-	
-	mov esi,0 ; esi = 0
-	mov edi,0 ; edi = 0
 
-	
-	mov ebx, [ebp+24] ;ebx = n 
-	
 l1:
-	mov dword [counter], 0
-	;push ecx
-	push esi
-	mov dword [index2],0
+	mov eax, [ebp+8] ;;str1
+	mov ebx, [ebp+12] ;;len of str1
+	;mov ecx, [ebp+16] ;;str2
+	;mov edx, [ebp+20] ;;len of str2
+	mov esi, [ebp+24] ;;n
 	
-l4: 
+	push esi ;;esi holds n
+	sub esi, ebx
+	mov edi, esi ;;edi holds #ngram
+	pop esi
+	mov dword [nMinusOne], esi
+	sub dword [nMinusOne], 1
 	
-	mov byte dl, [edx+edi]
-	mov byte cl, [ecx+esi]
-	cmp dl,cl
-	
-	;cmp ecx,edx
-	
-	
-	;mov byte edx,[edx]
-	;mov byte ecx,[ecx]
-	;cmp ecx,edx
-	
-	je match 
-	
-l3:	;inc edx
-	inc edi ;increment offset instead of register
-	add dword [index2],1 ;increment index 2
-	
-	;;;;eax in burda str2 de ilerlemesi lazım
-	mov eax,[ebp+20]; eax = size 2
-	sub eax,ebx ;eax = size2 - n
-	inc eax 
-	cmp [index2],eax
-	;;;
-	
-	je l2
-	jmp l4 
+	jmp loop1
 
-l2: ;pop ecx
-	pop esi ;pop esi back 
-	;inc ecx
-	inc esi
-	add dword [index1],1 ;increment index 1
+incEax:
+	inc eax ;;goto next ngram
+	mov ecx, eax ;;set the offset address
+	mov dword [i], 0  ;;clear counters
+	mov dword [j], 0
+loop1:
+	push [ecx] ;;push letter to stack
+	inc ecx ;;increase iterator
+	add dword [i], 1 ;;increase counters
+	add dword [j], 1
+	cmp [j], esi ;;end of inner loop
+	jl loop1
+	cmp [i], [nMinusOne] ;;end of outer loop
+	jl incEax
 	
-	;;;;eax in burda str1 de ilerlemesi lazım
-	mov eax,[ebp+12] ;eax = size1
-	sub eax,ebx ;eax = size1 - n
-	inc eax 
-	cmp [index1],eax
-	;;check for if str1 reached end
-	je fin
-	mov edx,[ebp+16]
-	jmp l1
+	mov eax, edi ;;#ngram
+	mul esi ;;#of letters
+	mul 4 ;;1 letter for each 4 bytes, esp should be increased to
+	;;go to the bottom of the stack
 	
-match:
-	
-	add dword [counter],1 ;increment counter
-	cmp [counter], ebx
-	je addHit
-	;inc ecx
-	;inc edx
-	inc esi
-	inc edi
-	;mov edx,[edx]
-	;mov edx,[ecx]
-	;cmp ecx, edx
-	
-	;mov dh, byte[edx]
-	;mov ch, byte[ecx]
-	;cmp dh, ch
-	
-	mov byte dl, [edx+edi]
-	mov byte cl, [ecx+esi]
-	cmp dl,cl
-	
-	je match
-	
-	jmp l2 
-	
-addHit: 
-	add dword [hit],1 ;increment hit count
-	jmp l2
-	
-fin:
-	mov eax,[hit]
-    
     pop ebp 
     ret
-    
-
