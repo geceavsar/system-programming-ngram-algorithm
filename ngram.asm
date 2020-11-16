@@ -29,41 +29,24 @@ ngram:
 	;init counters
 	mov dword [hit],0
 	mov dword [index1],0
-	
-	;get params 
-	
-	;mov eax, [ebp+16]
-	;mov edx, [eax] ;edx = str2
-	;mov eax, [ebp+8]
-	;mov ecx, [eax] ;ecx = str1
-	
+
 	mov edx, [ebp+16]
 	mov ecx, [ebp+8]
 	
 	mov esi,0 ; esi = 0
 	mov edi,0 ; edi = 0
-
 	
 	mov ebx, [ebp+24] ;ebx = n 
 	
 l1:
 	mov dword [counter], 0
-	;push ecx
 	push esi
 	mov dword [index2],0
 	
-l4: 
-	
+l4: 	
 	mov byte dl, [edx+edi]
 	mov byte cl, [ecx+esi]
 	cmp dl,cl
-	
-	;cmp ecx,edx
-	
-	
-	;mov byte edx,[edx]
-	;mov byte ecx,[ecx]
-	;cmp ecx,edx
 	
 	je match 
 	
@@ -98,21 +81,12 @@ l2: ;pop ecx
 	jmp l1
 	
 match:
-	
 	add dword [counter],1 ;increment counter
 	cmp [counter], ebx
 	je addHit
-	;inc ecx
-	;inc edx
+
 	inc esi
 	inc edi
-	;mov edx,[edx]
-	;mov edx,[ecx]
-	;cmp ecx, edx
-	
-	;mov dh, byte[edx]
-	;mov ch, byte[ecx]
-	;cmp dh, ch
 	
 	mov byte dl, [edx+edi]
 	mov byte cl, [ecx+esi]
@@ -132,4 +106,3 @@ fin:
     pop ebp 
     ret
     
-
