@@ -9,10 +9,20 @@ Group Project I
 #include <stdlib.h>
 #include <string.h>
 
-int n_gram(char* str_1, int size_1, char* str_2, int size_2, int n);
+int n_gram(char* str_1, int size_1, char* str_2, int size_2, int n){
+	
+	int i = 0;
+	int j = 0;
+	for(; i<size_1; ++i){
+		if(*str_1 == *str_2) j++;
+		str_1++;
+		str_2++;
+	}
+	return j;
+}
 int calculateSize(char* myStr){
     int size = 0;
-    while(myStr[size] != NULL){
+    while(myStr[size] != '\0'){
         size++;
     }
     return size;
@@ -37,7 +47,7 @@ int main(){
         
         //printf("%d\n", size_1);
         
-        result = ngram(str_1,size_1,str_2,size_2,n);
+        result = n_gram(str_1,size_1,str_2,size_2,n);
         printf("%d\n",result);
     }
 
