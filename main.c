@@ -29,8 +29,8 @@ int calculateSize(char* myStr){
 }
 int main(){
     int n;
-    char str_1[10];
-    char str_2[10];
+    char str_1[80];
+    char str_2[80];
     int size_1;
     int size_2;
     int result;
