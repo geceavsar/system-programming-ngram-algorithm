@@ -16,7 +16,7 @@ Gizem Ece Avsar
 int ngram(char* str_1, int size_1, char* str_2, int size_2, int n);
 int calculateSize(char* myStr){
     int size = 0;
-    while(myStr[size] != NULL){
+    while(myStr[size] != '\0'){
         size++;
     }
     return size;
@@ -29,7 +29,7 @@ int main(){
     int size_2;
     int result;
 
-    FILE * filep = fopen("input.txt", "r");
+    FILE * filep = fopen("input_tab.txt", "r");
     if (filep == NULL){   
         printf("Error! Could not open file\n"); 
         exit(-1);
