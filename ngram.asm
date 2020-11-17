@@ -111,7 +111,6 @@ addHit:
 fin:
 	mov edi, [ngram1]
 	mov esi, [ngram2]
-b1:
 	add edi, esi
 	mov esi, 100
 	mov eax,[hit] ;;eax is intersection
